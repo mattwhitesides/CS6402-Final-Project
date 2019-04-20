@@ -16,11 +16,13 @@ vector<Graph> AprioriBased(vector<Graph>, int);
 
 vector<Graph> FrequentOneSubgraphs(vector<Graph>, int);
 
-vector<Graph> CandidateGen(vector<Graph>, int);
+vector<Graph> CandidateGen(vector<Graph>);
 
 bool GraphIsomorphism(Graph, Graph);
 
 bool SubGraphIsomorphism(Graph, Graph);
+
+bool GraphInSubGraphSet(vector<Graph>, Graph);
 
 vector<pair<Graph::vertex, int>> GraphToSortedNodeList(Graph);
 

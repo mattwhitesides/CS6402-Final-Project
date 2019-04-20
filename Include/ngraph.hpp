@@ -997,13 +997,13 @@ namespace NGraph
 			if (out.size() == 0 && tGraph<T>::in_neighbors(p).size() == 0)
 			{
 				// v is an isolated node
-				s << v << "\n";
+				s << "\t" << v << "\n";
 			}
 			else
 			{
 				for (typename tGraph<T>::vertex_set::const_iterator q = out.begin();
 					q != out.end(); q++)
-					s << v << " " << *q << "\n";
+					s << "\t" << v << " " << *q << "\n";
 			}
 		}
 		return s;

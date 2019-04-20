@@ -198,10 +198,7 @@ void PrintGraphDetails(Graph g) {
 	cout << "Graph contains:\n\t"
 		<< g.num_vertices() << " vertices.\n\t"
 		<< g.num_edges() << " edges.\n\t"
-		<< g.num_nodes() << " nodes.\n\t";
-	
-	for (auto p = g.begin(); p != g.end(); p++) {
-		cout << "Nodes: " << Graph::node(p) << " ";
-	}
-	cout << "\n";
+		<< g.num_nodes() << " nodes.\n"
+		<< "\tEdges:\n"
+		<< g << "\n";
 }
