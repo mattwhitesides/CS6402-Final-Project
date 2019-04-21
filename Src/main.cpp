@@ -14,11 +14,13 @@ int main(int argc, char** argv) {
 
 	if (argc < 2) {
 		cout << "Invalid number of arguments...\n";
-		cout << "Proper usage: >> ./main.exe {Dataset Directory Path)";
+		cout << "Proper usage: >> ./main.exe {Dataset Directory Path} {Optional Min Support Threshold}";
 		cout << "Ex: ./main.exe Data/Test";
 		return -1;
 	}
-
+	
+	// Get min support, default to 2.
+	int s = (argc > 2) ? stoi(argv[2]) : 2;
 
 	// Load the graphs in the given directory.
 	cout << "Loading dataset...\n";
@@ -29,7 +31,7 @@ int main(int argc, char** argv) {
 
 	// Find the frequent subgraphs among the dataset.
 	cout << "\nFinding frequent Sub-Graphs...\n";
-	auto frequentSubgraphs = AprioriBased(graphs, 2);
+	auto frequentSubgraphs = AprioriBased(graphs, s);
 
 	// Stop the timer and get the duration.
 	auto stop = high_resolution_clock::now();
@@ -38,10 +40,11 @@ int main(int argc, char** argv) {
 	auto durationMin = duration_cast<minutes>(stop - start);
 
 	// Print out the details of the found frequent subgraphs.
-	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found: " << endl;
+	cout << "Found Frequent Sub-Graphs:" << endl;
 	for (auto& g : frequentSubgraphs) {
 		PrintGraphDetails(g);
 	}
+	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found: " << endl;
 	cout << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 		 << " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
 
