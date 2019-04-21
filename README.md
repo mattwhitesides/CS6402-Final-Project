@@ -5,6 +5,7 @@
 Requirements:
 - gcc-g++ version 7.0 or later.
 - make version 4.0 or later.
+- Tested on rc02xcs213.managed.mst.edu
 
 How to build:
 - Download the repo or the zip file to your desired location.
