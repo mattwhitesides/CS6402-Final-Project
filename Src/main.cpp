@@ -3,8 +3,8 @@
 // 3/19/2019
 
 #include <chrono> 
-#include "..\Include\preprocess.hpp"
-#include "..\Include\process.hpp"
+#include "../Include/preprocess.hpp"
+#include "../Include/process.hpp"
 
 using namespace NGraph;
 using namespace std;
