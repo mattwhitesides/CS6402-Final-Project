@@ -3,8 +3,8 @@
 // 3/19/2019
 
 #include <chrono> 
-#include "../Include/preprocess.hpp"
-#include "../Include/process.hpp"
+#include "..\Include\preprocess.hpp"
+#include "..\Include\process.hpp"
 
 using namespace NGraph;
 using namespace std;
@@ -44,7 +44,7 @@ int main(int argc, char** argv) {
 	for (auto& g : frequentSubgraphs) {
 		PrintGraphDetails(g);
 	}
-	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found: " << endl;
+	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found." << endl;
 	cout << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 		 << " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
 

@@ -1,6 +1,6 @@
-# Matt Whitesides
-## CS6402 Final Project
-## Parallel Apriori Based Frequent Subgraph Mining
+# Parallel Apriori Based Frequent Subgraph Mining
+## Matt Whitesides
+### CS6402 Final Project
 
 Requirements:
 - gcc-g++ version 7.0 or later.
@@ -9,7 +9,7 @@ Requirements:
 How to build:
 - Download the repo or the zip file to your desired location.
 - Open up a cmd or bash prompt and navigate to the base "CS6402-Final-Project" directory.
-- To make the single threaded application run `$ make`.
+- To make the single threaded application run `$ make` or `$ make single` .
 - To make the multi threaded application run `$ make multi`.
 - To create the test project run `$ make test`.
 
@@ -19,4 +19,3 @@ How to use:
     - For example:
         - `$ ./single.exe "Data/Random" 2`
         - `$ ./multi.exe "Data/Test" 3`
-
