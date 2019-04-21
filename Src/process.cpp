@@ -2,6 +2,8 @@
 // CS6402 - Adv Data Mining
 // 4/15/2019
 
+// Facebook: Process took 26 minutes, 22 seconds and 365 milliseconds.
+
 #include "..\Include\preprocess.hpp"
 #include "..\Include\process.hpp"
 
@@ -33,7 +35,7 @@ void TraverseGraph(Graph g) {
 }
 
 /**
-	Apriori-based approach for finding frequest subgraphs.
+	Apriori-based approach for finding frequent subgraphs.
 
 	@param g: the graph to be mined.
 	@param s: the minimum support threshold.
@@ -77,8 +79,6 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s) {
 	@return: A vector list of the frequent subgraphs.
 */
 vector<Graph> CandidateGen(vector<Graph> ds) {
-	// <Graph, Count>
-	map<Graph, int> vertexLookupTable;
 	vector<Graph> candidates;
 
 	for (Graph& g : ds) {
@@ -165,7 +165,7 @@ bool GraphIsomorphism(Graph x, Graph y) {
 */
 bool SubGraphIsomorphism(Graph sub, Graph g) {
 
-	//cout << "Compairing:\n" << sub;
+	//cout << "Comparing:\n" << sub;
 	//cout << "And:\n" << g;
 
 	Graph::vertex_set subSet;
@@ -218,7 +218,7 @@ bool GraphInSubGraphSet(vector<Graph> ds, Graph g) {
 }
 
 /**
-	Convertes a graph to an ordered list of nodes, by incomming and outgoing edge size.
+	Converts a graph to an ordered list of nodes, by incoming and outgoing edge size.
 
 	@param g: The graph being considered.
 	@return: The list of nodes.

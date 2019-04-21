@@ -2,11 +2,13 @@
 // CS6402 - Adv Data Mining
 // 3/19/2019
 
+#include <chrono> 
 #include "../Include/preprocess.hpp"
 #include "../Include/process.hpp"
 
 using namespace NGraph;
 using namespace std;
+using namespace std::chrono;
 
 int main(int argc, char** argv) {
 
@@ -17,28 +19,31 @@ int main(int argc, char** argv) {
 		return -1;
 	}
 
-	cout << "Loading dataset...\n";
 
-	// Load the given dataset into a graph object.
+	// Load the graphs in the given directory.
+	cout << "Loading dataset...\n";
 	vector<Graph> graphs = CreateGraphsFromDataSetDir(argv[1], false);
 
-	cout << "Finding frequent Sub-Graphs...\n";
+	// Start a timer.
+	auto start = high_resolution_clock::now();
+
+	// Find the frequent subgraphs among the dataset.
+	cout << "\nFinding frequent Sub-Graphs...\n";
 	auto frequentSubgraphs = AprioriBased(graphs, 2);
 
-	cout << "\nFrequent Sub-Graphs found: " << endl;
+	// Stop the timer and get the duration.
+	auto stop = high_resolution_clock::now();
+	auto durationMil = duration_cast<milliseconds>(stop - start);
+	auto durationSec = duration_cast<seconds>(stop - start);
+	auto durationMin = duration_cast<minutes>(stop - start);
+
+	// Print out the details of the found frequent subgraphs.
+	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found: " << endl;
 	for (auto& g : frequentSubgraphs) {
 		PrintGraphDetails(g);
 	}
+	cout << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
+		 << " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
 
-
-	//Graph g0 = CreateSampleGraph();
-	//Graph g0b = CreateSampleGraph();
-	//Graph g1 = CreateSampleGraph(1);
-	//Graph g2 = CreateSampleGraph(2);
-	//Graph g3 = CreateSampleGraph(3);
-
-	//auto r1 = !SubGraphIsomorphism(g0, g1);
-
-	//cin >> argc;
 	return 0;
 }
