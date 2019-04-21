@@ -22,15 +22,15 @@ DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 _OBJ = preprocess.o process.o main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-_OBJ_MULTI = preprocess.o multi_process.o tests.o
+_OBJ_MULTI = preprocess.o multi_process.o main.o
 OBJ_MULTI = $(patsubst %,$(ODIR_MULTI)/%,$(_OBJ_MULTI))
 
 _OBJ_TEST = preprocess.o process.o tests.o
 OBJ_TEST = $(patsubst %,$(ODIR_TEST)/%,$(_OBJ_TEST))
 
 # Default to build the main project exe.
-single: $(OBJ)
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+single: $(OBJ)	
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)	
 
 # Default to build the multi threaded project exe.
 multi: $(OBJ_MULTI)
@@ -40,17 +40,28 @@ multi: $(OBJ_MULTI)
 test: $(OBJ_TEST) 
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-$(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS)
+$(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR)	
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(OBJ_MULTI): $(ODIR_MULTI)/%.o: $(SDIR)/%.cpp $(DEPS)
+$(ODIR):
+	mkdir -p $(ODIR)
+
+$(OBJ_MULTI): $(ODIR_MULTI)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR_MULTI)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(OBJ_TEST): $(ODIR_TEST)/%.o: $(SDIR)/%.cpp $(DEPS)
+$(ODIR_MULTI):
+	mkdir -p $(ODIR_MULTI)
+
+$(OBJ_TEST): $(ODIR_TEST)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR_TEST)
 	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR_TEST):
+	mkdir -p $(ODIR_TEST)	
 
 .PHONY: clean
 clean:
 	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ 
 	rm -f $(ODIR_MULTI)/*.o *~ core $(INCDIR)/*~ 
 	rm -f $(ODIR_TEST)/*.o *~ core $(INCDIR)/*~ 
+	rm -R $(ODIR)
+	rm -f *.exe

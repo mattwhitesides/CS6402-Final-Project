@@ -15,7 +15,7 @@ int main(int argc, char** argv) {
 	if (argc < 2) {
 		cout << "Invalid number of arguments...\n";
 		cout << "Proper usage: >> ./main.exe {Dataset Directory Path)";
-		cout << "Ex: ./main.exe Data/Datasets/Test/out.tsv";
+		cout << "Ex: ./main.exe Data/Test";
 		return -1;
 	}
 
