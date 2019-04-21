@@ -18,5 +18,9 @@ How to use:
 - To run the single or multi threaded project execute the following:
     - `$ ./single.exe {Dataset Directory Path} {Optional Min Support Threshold}`
     - For example:
+        - Windows:
         - `$ ./single.exe "Data/Random" 2`
         - `$ ./multi.exe "Data/Test" 3`
+        - Linux:
+        - `$ ./single "Data/Random" 2`
+        - `$ ./multi "Data/Test" 3`
