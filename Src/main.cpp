@@ -14,8 +14,8 @@ int main(int argc, char** argv) {
 
 	if (argc < 2) {
 		cout << "Invalid number of arguments...\n";
-		cout << "Proper usage: >> ./main.exe {Dataset Directory Path} {Optional Min Support Threshold}";
-		cout << "Ex: ./main.exe Data/Test";
+		cout << "Proper usage: >> ./single.exe {Dataset Directory Path} {Optional Min Support Threshold}";
+		cout << "Ex: ./single.exe Data/Test";
 		return -1;
 	}
 	
