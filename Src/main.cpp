@@ -12,21 +12,43 @@ using namespace std::chrono;
 
 int main(int argc, char** argv) {
 
+	bool isMulti = (string(argv[0]).find("multi") != string::npos);
+
 	if (argc < 2) {
 		cout << "Invalid number of arguments...\n";
-		cout << "Proper usage: >> ./multi.exe {Dataset Directory Path} {Optional Min Support Threshold} {Optional Thread Count} {Optional Output File Name}\n";
-		cout << "Ex: " << argv[0] << " \"Data/Test\" 2 2 \"output.txt\"";
+
+		if (isMulti) {
+			cout << "Proper usage: >> ./multi.exe {Dataset Directory Path} {Optional Min Support Threshold} {Optional Thread Count} {Optional Output File Name}\n";
+			cout << "Ex: " << argv[0] << " \"Data/Test\" 2 2 \"output.txt\"";
+		}
+		else {
+			cout << "Proper usage: >> ./single.exe {Dataset Directory Path} {Optional Min Support Threshold} {Optional Output File Name}\n";
+			cout << "Ex: " << argv[0] << " \"Data/Test\" 2 \"output.txt\"";
+		}
 		return -1;
 	}
 
-	// Get min support, default to 2.
-	int s = (argc > 2) ? stoi(argv[2]) : 2;
+	int s, t;
+	string outFilePath;
+
+	if (isMulti) {
+		// Get min support, default to 2.
+		s = (argc > 2) ? stoi(argv[2]) : 2;
+
+		// Get thread count, default to 2.
+		t = (argc > 3) ? stoi(argv[3]) : 2;
+
+		// Get output file path, default to "subgraphs.txt".
+		outFilePath = (argc > 4) ? argv[4] : "subgraphs.txt";
+	}
+	else {
+		s = (argc > 2) ? stoi(argv[2]) : 2;
+		outFilePath = (argc > 3) ? argv[3] : "subgraphs.txt";
+		t = 1;
+	}
+	
 	cout << "\nSetting minimum support to " << s << endl;
-
-	int t = (argc > 3) ? stoi(argv[3]) : 1;
-	cout << "Setting thread count to " << t << endl;
-
-	string outFilePath = (argc > 4) ? argv[4] : "subgraphs.txt";
+	if (isMulti) cout << "Setting thread count to " << t << endl;
 	cout << "Setting outputfile to \"" << outFilePath << "\"\n\n";
 
 	// Load the graphs in the given directory.
@@ -47,7 +69,7 @@ int main(int argc, char** argv) {
 	auto durationMin = duration_cast<minutes>(stop - start);
 
 	// Write out the details of the found frequent subgraphs.
-	cout << "Found Frequent Sub-Graphs writing results to file \"" << outFilePath << "\"...";
+	cout << "Found " << frequentSubgraphs.size() << " Frequent Sub-Graphs, writing results to file \"" << outFilePath << "\"...";
 	ofstream outFile;
 	outFile.open(outFilePath);
 	outFile << frequentSubgraphs.size() << " Frequent Sub-Graphs found." << endl;
@@ -62,7 +84,6 @@ int main(int argc, char** argv) {
 	outFile.close();
 	cout << "Done.\n";
 
-	cout << frequentSubgraphs.size() << " Frequent Sub-Graphs found." << endl;
 	cout << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 		<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl << endl;
 
