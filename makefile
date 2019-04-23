@@ -19,6 +19,9 @@ LIBS = -lm
 _DEPS = preprocess.hpp process.hpp catch.hpp ngraph.hpp
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
+_DEPS_MULTI = preprocess.hpp multi_process.hpp catch.hpp ngraph.hpp
+DEPS_MULTI = $(patsubst %,$(IDIR)/%,$(_DEPS_MULTI))
+
 _OBJ = preprocess.o process.o main.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
@@ -46,7 +49,7 @@ $(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR)
 $(ODIR):
 	mkdir -p $(ODIR)
 
-$(OBJ_MULTI): $(ODIR_MULTI)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR_MULTI)
+$(OBJ_MULTI): $(ODIR_MULTI)/%.o: $(SDIR)/%.cpp $(DEPS_MULTI) | $(ODIR_MULTI)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR_MULTI):
