@@ -2,12 +2,8 @@
 // CS6402 - Adv Data Mining
 // 4/15/2019
 
-#include <thread>
 #include "..\Include\preprocess.hpp"
-#include "..\Include\process.hpp"
-
-using namespace NGraph;
-using namespace std;
+#include "..\Include\multi_process.hpp"
 
 /**
 	Traverses the given graph in a breath first fashion.
@@ -40,33 +36,83 @@ void TraverseGraph(Graph g) {
 	@param s: the minimum support threshold.
 	@return a vector list of the frequent subgraphs of cardinality 1 to k.
 */
-vector<Graph> AprioriBased(vector<Graph> ds, int s) {
-	int k = 2;
+vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
+	unsigned int k = 2;
 	vector<Graph> subGraphs;
 	vector<vector<Graph>> f;
 
-	f.push_back(vector<Graph>());
-	f.push_back(FrequentOneSubgraphs(ds, s));
+	f.emplace_back(vector<Graph>());
+	f.emplace_back(FrequentOneSubgraphs(ds, s));
 
 	while (f[k - 1].size() != 0) {
-		f.push_back(vector<Graph>());
-		vector<Graph> c = CandidateGen(f[k - 1]);
-		for (auto& g : c) {
-			for (auto& gi : ds) {
-				if (SubGraphIsomorphism(g, gi)) {
-					++g.count;
+		auto start = high_resolution_clock::now();
+
+		f.emplace_back(vector<Graph>());
+
+		vector<Graph> c = CandidateGen(f[k - 1], t);
+
+		vector<thread> threads;
+		vector<future<vector<Graph>>> futures;
+		auto subCandidates = SplitVectorIntoSubVectors(c, t);
+
+		int ti = 1;
+		for (auto& sc : subCandidates) {
+			promise<vector<Graph>> p;
+			futures.emplace_back(p.get_future());
+			threads.emplace_back(thread(AddCandidateIfValid, sc, ds, s, ti, move(p)));
+			++ti;
+		}
+
+		for (auto& t : threads) {
+			t.join();
+		}
+
+		for (auto& future : futures) {
+			for (auto& g : future.get()) {
+				if (!GraphInSubGraphSet(subGraphs, g)) {
+					subGraphs.emplace_back(g);
+					f[k].emplace_back(g);
 				}
 			}
-
-			if (g.count >= s && !GraphInSubGraphSet(subGraphs, g)) {
-				subGraphs.push_back(g);
-				f[k].push_back(g);
-			}
 		}
+		
 		k++;
+
+		threads.clear();
+		futures.clear();
+
+		// Stop the timer and get the duration.
+		auto stop = high_resolution_clock::now();
+		auto durationMil = duration_cast<milliseconds>(stop - start);
+		auto durationSec = duration_cast<seconds>(stop - start);
+		auto durationMin = duration_cast<minutes>(stop - start);
+
+		cout << "Analyzed " << c.size() << " candidates with K-level " << k - 1 << " using " << t <<  " threads. Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
+			<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
+
+		c.clear();
 	}
 
+	cout << endl;
 	return subGraphs;
+}
+
+void AddCandidateIfValid(vector<Graph> c, vector<Graph> ds, int s, int t, promise<vector<Graph>> && p) {
+	vector<Graph> subGraphs;
+
+	for (auto& g : c) {
+		for (auto& gi : ds) {
+			if (SubGraphIsomorphism(g, gi)) {
+				++g.count;
+			}
+		}
+
+		if (g.count >= s && !GraphInSubGraphSet(subGraphs, g)) {
+			subGraphs.emplace_back(g);
+		}
+	}
+
+	p.set_value(subGraphs);
 }
 
 /**
@@ -77,31 +123,90 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s) {
 	@param f: The single subgraph to start off of.
 	@return: A vector list of the frequent subgraphs.
 */
-vector<Graph> CandidateGen(vector<Graph> ds) {
+vector<Graph> CandidateGen(vector<Graph> ds, int t = 1) {
 	vector<Graph> candidates;
+	auto subVectors = SplitVectorIntoSubVectors(ds, t);
 
 	for (Graph& g : ds) {
-		candidates.push_back(g);
+		vector<thread> threads;
+		vector<future<vector<Graph>>> futures;
+		candidates.emplace_back(g);
+
+		for (auto& sg : subVectors) {
+			promise<vector<Graph>> p;
+			futures.emplace_back(p.get_future());
+			threads.emplace_back(thread(AddCandidates, g, sg, move(p)));
+		}
+
+		for (auto& t : threads) {
+			t.join();
+		}
+
+		for (auto& f : futures) {
+			for (auto& g : f.get()) {
+				candidates.emplace_back(g);
+			}
+		}
+
+		threads.clear();
+		futures.clear();
+	}
+
+	return candidates;
+}
+
+vector<vector<Graph>> SplitVectorIntoSubVectors(vector<Graph> v, int n) {
+	vector<vector<Graph>> result;
+	int vSize = v.size();
+	int size = vSize / n;
+	int remain = vSize % n;
+
+	if (vSize < n) {
+		vector<Graph> temp;
+
+		for (int j = 0; j < remain; ++j) {
+			temp.emplace_back(v[j]);
+		}
+
+		result.emplace_back(temp);
+		return result;
+	}
+
+	int total = 0;
+	for (int i = 0; i < n; ++i) {
+		vector<Graph> temp;
+		for (int j = 0; j < size; ++j) {
+			temp.emplace_back(v[total++]);
+		}
+		if (i == n - 1) {
+			for (int j = 0; j < remain; ++j) {
+				temp.emplace_back(v[total++]);
+			}
+		}
+		result.emplace_back(temp);
+	}
+
+	return result;
+}
+
+void AddCandidates(Graph g, vector<Graph> ds, promise<vector<Graph>> && p) {
+	vector<Graph> candidates;
+
+	for (Graph& g2 : ds) {
 		for (Graph::const_iterator p = g.begin(); p != g.end(); p++) {
-			for (Graph& g2 : ds) {
-				for (Graph::const_iterator p2 = g2.begin(); p2 != g2.end(); p2++) {
-					auto node1 = Graph::node(p);
-					auto node2 = Graph::node(p2);
-					if (node1 != node2) {
-						auto c = g;
-						c.insert_undirected_edge(node1, node2);
-						candidates.push_back(c);
-					}
+			for (Graph::const_iterator p2 = g2.begin(); p2 != g2.end(); p2++) {
+				auto node1 = Graph::node(p);
+				auto node2 = Graph::node(p2);
+				if (node1 != node2) {
+					auto c = g;
+					c.insert_undirected_edge(node1, node2);
+					candidates.emplace_back(c);
 				}
 			}
 		}
 	}
 
-	//for (auto& x : candidates) {
-	//	cout << "Candidate: " << endl << x << endl;
-	//}
-
-	return candidates;
+	p.set_value(candidates);
 }
 
 /**
@@ -134,7 +239,7 @@ vector<Graph> FrequentOneSubgraphs(vector<Graph> ds, int s) {
 		if (x.second >= s) {
 			Graph gk;
 			gk.insert_vertex(x.first);
-			subGraphs.push_back(gk);
+			subGraphs.emplace_back(gk);
 		}
 	}
 
@@ -228,7 +333,7 @@ vector<pair<Graph::vertex, int>> GraphToSortedNodeList(Graph g) {
 		int si = Graph::in_neighbors(p).size();
 		int so = Graph::out_neighbors(p).size();
 
-		ng.push_back(pair<Graph::vertex, int>(Graph::node(p), si + so));
+		ng.emplace_back(pair<Graph::vertex, int>(Graph::node(p), si + so));
 	}
 
 	sort(ng.begin(), ng.end(), less_second<Graph::vertex, int>());
