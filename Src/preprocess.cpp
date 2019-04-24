@@ -162,10 +162,10 @@ vector<Graph> CreateGraphsFromDataSetDir(string dirPath, bool printDetails) {
 				retGraphs.push_back(g);
 			}
 
-			cout << "Done creating Graph, inserted " << g.num_vertices() << " vertices and " << g.num_edges() << " edges.\n";
+			cout << "Created Graph from file \"" << entry.path().filename() << "\", inserted " << g.num_vertices() << " vertices and " << g.num_edges() << " edges.\n";
 		}
 		else {
-			cout << "Could not open file in path: " << filePath << "\n";
+			cout << "Could not open file in path: " << filePath << entry << "\n";
 		}
 	}
 
