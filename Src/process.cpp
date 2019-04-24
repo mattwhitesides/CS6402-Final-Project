@@ -41,27 +41,28 @@ void TraverseGraph(Graph g) {
 	@param s: the minimum support threshold.
 	@return a vector list of the frequent subgraphs of cardinality 1 to k.
 */
-vector<Graph> AprioriBased(vector<Graph> ds, int s) {
+vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 	int k = 2;
 	vector<Graph> subGraphs;
 	vector<vector<Graph>> f;
 
-	f.push_back(vector<Graph>());
-	f.push_back(FrequentOneSubgraphs(ds, s));
+	f.emplace_back(vector<Graph>());
+	f.emplace_back(FrequentOneSubgraphs(ds, s));
 
 	while (f[k - 1].size() != 0) {
-		f.push_back(vector<Graph>());
+		f.emplace_back(vector<Graph>());
 		vector<Graph> c = CandidateGen(f[k - 1]);
 		for (auto& g : c) {
 			for (auto& gi : ds) {
 				if (SubGraphIsomorphism(g, gi)) {
 					++g.count;
+					continue;
 				}
 			}
 
 			if (g.count >= s && !GraphInSubGraphSet(subGraphs, g)) {
-				subGraphs.push_back(g);
-				f[k].push_back(g);
+				subGraphs.emplace_back(g);
+				f[k].emplace_back(g);
 			}
 		}
 		k++;
@@ -82,7 +83,7 @@ vector<Graph> CandidateGen(vector<Graph> ds) {
 	vector<Graph> candidates;
 
 	for (Graph& g : ds) {
-		candidates.push_back(g);
+		candidates.emplace_back(g);
 		for (Graph::const_iterator p = g.begin(); p != g.end(); p++) {
 			for (Graph& g2 : ds) {
 				for (Graph::const_iterator p2 = g2.begin(); p2 != g2.end(); p2++) {
@@ -91,7 +92,7 @@ vector<Graph> CandidateGen(vector<Graph> ds) {
 					if (node1 != node2) {
 						auto c = g;
 						c.insert_undirected_edge(node1, node2);
-						candidates.push_back(c);
+						candidates.emplace_back(c);
 					}
 				}
 			}
@@ -135,7 +136,7 @@ vector<Graph> FrequentOneSubgraphs(vector<Graph> ds, int s) {
 		if (x.second >= s) {
 			Graph gk;
 			gk.insert_vertex(x.first);
-			subGraphs.push_back(gk);
+			subGraphs.emplace_back(gk);
 		}
 	}
 
@@ -229,7 +230,7 @@ vector<pair<Graph::vertex, int>> GraphToSortedNodeList(Graph g) {
 		int si = Graph::in_neighbors(p).size();
 		int so = Graph::out_neighbors(p).size();
 
-		ng.push_back(pair<Graph::vertex, int>(Graph::node(p), si + so));
+		ng.emplace_back(pair<Graph::vertex, int>(Graph::node(p), si + so));
 	}
 
 	sort(ng.begin(), ng.end(), less_second<Graph::vertex, int>());
