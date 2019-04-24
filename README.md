@@ -16,12 +16,15 @@ How to build:
 
 How to use:
 - To run the single or multi threaded project execute the following:
-    - `$ ./single.exe {Dataset Directory Path} {Optional Min Support Threshold} {Optional Output File Name}`
-    - `$ ./multi.exe {Dataset Directory Path} {Optional Min Support Threshold} {Optional Thread Count} {Optional Output File Name}`
+    - `$ ./single {Dataset Directory Path} {Optional Min Support Threshold} {Optional Output File Name}`
+    - `$ ./multi {Dataset Directory Path} {Optional Min Support Threshold} {Optional Thread Count} {Optional Output File Name}`
+    - Or do run with default parameters you can omit the optional arguments:
+    - `$ ./single {Dataset Directory Path}`
+    - `$ ./multi {Dataset Directory Path}`
     - For example:
-        - Windows:
-        - `$ single.exe "Data/Test" 2 "output.txt"`
-        - `$ multi.exe "Data/Test" 2 2 "output.txt"`
         - Linux:
         - `$ ./single "Data/Test" 2 "output.txt"`
         - `$ ./multi "Data/Test" 2 2 "output.txt"`
+        - Windows:
+        - `$ single.exe "Data/Test" 2 "output.txt"`
+        - `$ multi.exe "Data/Test" 2 2 "output.txt"`
