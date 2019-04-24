@@ -169,6 +169,15 @@ vector<Graph> CreateGraphsFromDataSetDir(string dirPath, bool printDetails) {
 		}
 	}
 
+	long int totalVerts = 0;
+	long int totalEdges = 0;
+	for (auto& g : retGraphs) {
+		totalVerts += g.num_vertices();
+		totalEdges += g.num_edges();
+	}
+
+	cout << "Done creating Graphs, created " << retGraphs.size() << " graphs, inserted " << totalVerts << " verticies, and " << totalEdges << " edges.\n";
+
 	return retGraphs;
 }
 
