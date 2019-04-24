@@ -10,8 +10,8 @@ Requirements:
 How to build:
 - Download the repo or the zip file to your desired location.
 - Open up a cmd or bash prompt and navigate to the base "CS6402-Final-Project" directory.
-- To make the single threaded application run `$ make` or `$ make single` .
-- To make the multi threaded application run `$ make multi`.
+- To make the multi threaded application run `$ make` or `$ make multi`.
+- To make the single threaded application run `$ make single` .
 - To create the test project run `$ make test`.
 
 How to use:
