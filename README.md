@@ -18,7 +18,7 @@ How to use:
 - To run the single or multi threaded project execute the following:
     - `$ ./single {Dataset Directory Path} {Optional Min Support Threshold} {Optional Output File Name}`
     - `$ ./multi {Dataset Directory Path} {Optional Min Support Threshold} {Optional Thread Count} {Optional Output File Name}`
-    - Or do run with default parameters you can omit the optional arguments:
+    - Or to run with default parameters you can omit the optional arguments:
     - `$ ./single {Dataset Directory Path}`
     - `$ ./multi {Dataset Directory Path}`
     - For example:
