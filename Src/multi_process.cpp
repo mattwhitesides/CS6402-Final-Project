@@ -81,7 +81,6 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 
 		threads.clear();
 		futures.clear();
-		c.clear();
 
 		// Stop the timer and get the duration.
 		auto stop = high_resolution_clock::now();
@@ -92,6 +91,8 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 		cout << "Analyzed " << c.size() << " candidates with K-level " << k - 1 << " using " << t 
 			<<  " threads. Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 			<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
+			
+		c.clear();
 	}
 
 	cout << endl;
