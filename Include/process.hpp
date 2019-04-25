@@ -2,17 +2,21 @@
 // CS6402 - Adv Data Mining
 // 4/15/2019
 
-#include <stdio.h>
+#include <chrono> 
 #include <fstream>
+#include <stdio.h>
 #include <string>
 #include <vector>
+
 #include "ngraph.hpp"
 
 using namespace NGraph;
+using namespace std;
+using namespace std::chrono;
 
 void TraverseGraph(Graph);
 
-vector<Graph> AprioriBased(vector<Graph>, int);
+vector<Graph> AprioriBased(vector<Graph>, int, int);
 
 vector<Graph> FrequentOneSubgraphs(vector<Graph>, int);
 

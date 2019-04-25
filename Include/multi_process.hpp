@@ -3,12 +3,13 @@
 // 4/17/2019
 
 #include <chrono> 
-#include <stdio.h>
 #include <fstream>
-#include <string>
-#include <vector>
-#include <thread>
 #include <future>
+#include <stdio.h>
+#include <string>
+#include <thread>
+#include <vector>
+
 #include "ngraph.hpp"
 
 using namespace NGraph;
