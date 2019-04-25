@@ -28,3 +28,7 @@ How to use:
         - Windows:
         - `$ single.exe "Data/Test" 2 "output.txt"`
         - `$ multi.exe "Data/Test" 2 2 "output.txt"`
+        
+Data from included some of the included datasets:
+- [Social circles: Facebook](https://snap.stanford.edu/data/ego-Facebook.html)
+- [Social circles: Twitter](https://snap.stanford.edu/data/ego-Twitter.html)
