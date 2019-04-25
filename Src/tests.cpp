@@ -11,7 +11,7 @@
 using namespace NGraph;
 
 namespace {
-   const string _testDirPath = "Data/Datasets/Test";
+   const string _testDirPath = "Data/Test";
 };
 
 TEST_CASE("Sample Graph Created Correctly", "[NGraph]") {
