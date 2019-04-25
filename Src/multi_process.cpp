@@ -89,7 +89,8 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 		auto durationSec = duration_cast<seconds>(stop - start);
 		auto durationMin = duration_cast<minutes>(stop - start);
 
-		cout << "Analyzed " << c.size() << " candidates with K-level " << k - 1 << " using " << t <<  " threads. Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
+		cout << "Analyzed " << c.size() << " candidates with K-level " << k - 1 << " using " << t 
+			<<  " threads. Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 			<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
 	}
 
@@ -155,6 +156,13 @@ vector<Graph> CandidateGen(vector<Graph> ds, int t = 1) {
 	return candidates;
 }
 
+/**
+	Generates a list of candidates for a frequent subgraph using a modified level-wise join.
+
+	@param v: The total graph dataset
+	@param n: The number of sub datasets you want.
+	@return: A vector list of a divided list of datasets.
+*/
 vector<vector<Graph>> SplitVectorIntoSubVectors(vector<Graph> v, int n) {
 	vector<vector<Graph>> result;
 	int vSize = v.size();
@@ -189,6 +197,13 @@ vector<vector<Graph>> SplitVectorIntoSubVectors(vector<Graph> v, int n) {
 	return result;
 }
 
+/**
+	Finds and appends candidates to each of the passed in nodes and "returns" the new candidate list.
+
+	@param g: The the current graph to add candidates to.
+	@param n: The dataset of possible candidates.
+	@param p: The promise list of candidates that will be read in once the thread is complete.
+*/
 void AddCandidates(Graph g, vector<Graph> ds, promise<vector<Graph>> && p) {
 	vector<Graph> candidates;
 
@@ -268,10 +283,6 @@ bool GraphIsomorphism(Graph x, Graph y) {
 	@return: True if the two graphs are isomorphic.
 */
 bool SubGraphIsomorphism(Graph sub, Graph g) {
-
-	//cout << "Comparing:\n" << sub;
-	//cout << "And:\n" << g;
-
 	Graph::vertex_set subSet;
 
 	for (Graph::const_iterator i = sub.begin(); i != sub.end(); i++) {
@@ -300,7 +311,6 @@ bool SubGraphIsomorphism(Graph sub, Graph g) {
 		j++;
 	}
 
-	//cout << "Isomorphic is true.\n";
 	return true;
 }
 

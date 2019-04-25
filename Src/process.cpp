@@ -2,22 +2,13 @@
 // CS6402 - Adv Data Mining
 // 4/15/2019
 
-// Facebook: Process took 26 minutes, 22 seconds and 365 milliseconds.
-
-#include <chrono> 
 #include "../Include/preprocess.hpp"
 #include "../Include/process.hpp"
-
-
-
-using namespace NGraph;
-using namespace std;
-using namespace std::chrono;
 
 /**
 	Traverses the given graph in a breath first fashion.
 
-	@param graph: the graph to be traversed.
+	@param graph: The graph to be traversed.
 */
 void TraverseGraph(Graph g) {
 	// for each node in the graph...
@@ -41,9 +32,9 @@ void TraverseGraph(Graph g) {
 /**
 	Apriori-based approach for finding frequent subgraphs.
 
-	@param g: the graph to be mined.
-	@param s: the minimum support threshold.
-	@return a vector list of the frequent subgraphs of cardinality 1 to k.
+	@param g: The graph to be mined.
+	@param s: The minimum support threshold.
+	@return: A vector list of the frequent subgraphs of cardinality 1 to k.
 */
 vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 	int k = 2;
@@ -163,10 +154,6 @@ bool GraphIsomorphism(Graph x, Graph y) {
 	@return: True if the two graphs are isomorphic.
 */
 bool SubGraphIsomorphism(Graph sub, Graph g) {
-
-	//cout << "Comparing:\n" << sub;
-	//cout << "And:\n" << g;
-
 	Graph::vertex_set subSet;
 
 	for (Graph::const_iterator i = sub.begin(); i != sub.end(); i++) {
@@ -195,7 +182,6 @@ bool SubGraphIsomorphism(Graph sub, Graph g) {
 		j++;
 	}
 
-	//cout << "Isomorphic is true.\n";
 	return true;
 }
 
