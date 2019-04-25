@@ -31,29 +31,29 @@ OBJ_MULTI = $(patsubst %,$(ODIR_MULTI)/%,$(_OBJ_MULTI))
 _OBJ_TEST = preprocess.o process.o tests.o
 OBJ_TEST = $(patsubst %,$(ODIR_TEST)/%,$(_OBJ_TEST))
 
-# Default to build the main project exe.
-single: $(OBJ)	
-	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)	
-
 # Default to build the multi threaded project exe.
 multi: $(OBJ_MULTI)
+	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)	
+
+# Default to build the main project exe.
+single: $(OBJ)	
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)	
 
 # To build the test cases test.exe.
 test: $(OBJ_TEST) 
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
-$(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR)	
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(ODIR):
-	mkdir -p $(ODIR)
-
 $(OBJ_MULTI): $(ODIR_MULTI)/%.o: $(SDIR)/%.cpp $(DEPS_MULTI) | $(ODIR_MULTI)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR_MULTI):
 	mkdir -p $(ODIR_MULTI)
+
+$(OBJ): $(ODIR)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR)	
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR):
+	mkdir -p $(ODIR)
 
 $(OBJ_TEST): $(ODIR_TEST)/%.o: $(SDIR)/%.cpp $(DEPS) | $(ODIR_TEST)
 	$(CC) -c -o $@ $< $(CFLAGS)
