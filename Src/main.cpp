@@ -48,9 +48,9 @@ int main(int argc, char** argv) {
 		t = 1;
 	}
 	
-	cout << "\nSetting minimum support to " << s << endl;
-	if (isMulti) cout << "Setting thread count to " << t << endl;
-	cout << "Setting outputfile to \"" << outFilePath << "\"\n\n";
+	cout << "\nSetting minimum support to " << s << '.' << endl;
+	if (isMulti) cout << "Setting thread count to " << t << '.' << endl;
+	cout << "Setting outputfile to \"" << outFilePath << "\".\n\n";
 
 	// Load the graphs in the given directory.
 	cout << "Loading dataset...\n";
