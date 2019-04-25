@@ -8,7 +8,7 @@
 /**
 	Traverses the given graph in a breath first fashion.
 
-	@param graph: the graph to be traversed.
+	@param graph: The graph to be traversed.
 */
 void TraverseGraph(Graph g) {
 	// for each node in the graph...
@@ -32,9 +32,10 @@ void TraverseGraph(Graph g) {
 /**
 	Apriori-based approach for finding frequent subgraphs.
 
-	@param g: the graph to be mined.
-	@param s: the minimum support threshold.
-	@return a vector list of the frequent subgraphs of cardinality 1 to k.
+	@param g: The graph to be mined.
+	@param s: The minimum support threshold.
+	@param t: The minimum support threshold.
+	@return: A vector list of the frequent subgraphs of cardinality 1 to k.
 */
 vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 	unsigned int k = 2;
@@ -80,6 +81,7 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 
 		threads.clear();
 		futures.clear();
+		c.clear();
 
 		// Stop the timer and get the duration.
 		auto stop = high_resolution_clock::now();
@@ -89,8 +91,6 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 
 		cout << "Analyzed " << c.size() << " candidates with K-level " << k - 1 << " using " << t <<  " threads. Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 			<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl;
-
-		c.clear();
 	}
 
 	cout << endl;

@@ -70,7 +70,7 @@ TEST_CASE("AprioriBased should find frequent subgraphs", "[NGraph]") {
     cout << "\nTEST 5: AprioriBased should find frequent subgraphs\n";
 
     vector<Graph> graphs = CreateGraphsFromDataSetDir(_testDirPath, false);
-    vector<Graph> subGraphs = AprioriBased(graphs, 2);
+    vector<Graph> subGraphs = AprioriBased(graphs, 2, 1);
 
     REQUIRE(subGraphs.size() == 6);    
 }

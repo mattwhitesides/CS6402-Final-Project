@@ -4,11 +4,15 @@
 
 // Facebook: Process took 26 minutes, 22 seconds and 365 milliseconds.
 
+#include <chrono> 
 #include "../Include/preprocess.hpp"
 #include "../Include/process.hpp"
 
+
+
 using namespace NGraph;
 using namespace std;
+using namespace std::chrono;
 
 /**
 	Traverses the given graph in a breath first fashion.
@@ -46,12 +50,13 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 	vector<Graph> subGraphs;
 	vector<vector<Graph>> f;
 
-	f.emplace_back(vector<Graph>());
+	f.emplace_back(vector<Graph>());		
 	f.emplace_back(FrequentOneSubgraphs(ds, s));
 
 	while (f[k - 1].size() != 0) {
 		f.emplace_back(vector<Graph>());
 		vector<Graph> c = CandidateGen(f[k - 1]);
+		
 		for (auto& g : c) {
 			for (auto& gi : ds) {
 				if (SubGraphIsomorphism(g, gi)) {
@@ -74,10 +79,7 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 /**
 	Generates a list of candidates for a frequent subgraph using a modified level-wise join.
 
-	@param g: The graph being considered.
-	@param s: The minimum support threshold.
-	@param f: The single subgraph to start off of.
-	@return: A vector list of the frequent subgraphs.
+	@param g: The graphs being considered.	
 */
 vector<Graph> CandidateGen(vector<Graph> ds) {
 	vector<Graph> candidates;
@@ -98,10 +100,6 @@ vector<Graph> CandidateGen(vector<Graph> ds) {
 			}
 		}
 	}
-
-	//for (auto& x : candidates) {
-	//	cout << "Candidate: " << endl << x << endl;
-	//}
 
 	return candidates;
 }
