@@ -14,11 +14,11 @@ How to build:
 - To make the single threaded application run `$ make single` .
 - To create the test project run `$ make test`.
 
-Or to build using Visual Studio:
 Also included is a Visual Studio C++ solution for the multi threaded application, located in the VS_Multi folder.
 - Open up VS_Multi.sln using Visual Studio.
 - Build the solution preferably using x64.
 - The resulting exe in the Release folder will behave the same as if made using the G++/Makefile.
+- Note: For Windows this is preferable as there are issues w/ Cygwin and multi-threading, however I did not try running it outside of the Cygwin container so your milage may very.
 
 How to use:
 - To run the single or multi threaded project execute the following:
