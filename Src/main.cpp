@@ -13,7 +13,6 @@ using namespace std::chrono;
 int main(int argc, char** argv) {
 
 	string exe = string(argv[0]);
-	string directory = string(argv[1]);
 	bool isMulti = (exe.find("multi") != string::npos) || (exe.find("CS6402") != string::npos);
 
 	if (argc < 2) {
@@ -83,7 +82,7 @@ int main(int argc, char** argv) {
 	ofstream outFile;
 	outFile.open(outFilePath);
 
-	outFile << "Loaded graphs from directory, \"" << directory << "\".\n";
+	outFile << "Loaded graphs from directory, \"" << string(argv[1]) << "\".\n";
 	outFile << "Loaded " << graphs.size() << " graphs, containing a total of " << totalVerts << " verticies, and " << totalEdges << " edges.\n";
 	outFile << frequentSubgraphs.size() << " Frequent Sub-Graphs found." << endl;
 	outFile << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60) << " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl << endl;
