@@ -22,13 +22,13 @@ vector<Graph> AprioriBased(vector<Graph>, int, int);
 
 vector<Graph> FrequentOneSubgraphs(vector<Graph>, int);
 
-vector<Graph> CandidateGen(vector<Graph>, int t);
+vector<Graph> CandidateGen(vector<Graph>, int);
 
 void AddCandidates(Graph, vector<Graph>, promise<vector<Graph>>&&);
 
-vector<vector<Graph>> SplitVectorIntoSubVectors(vector<Graph>, int n);
+vector<vector<Graph>> SplitVectorIntoSubVectors(vector<Graph>, int);
 
-void AddCandidateIfValid(vector<Graph> c, vector<Graph> ds, int s, int t, promise<vector<Graph>>&& p);
+void AddCandidateIfValid(vector<Graph>, vector<Graph>, int, promise<vector<Graph>>&&);
 
 bool GraphIsomorphism(Graph, Graph);
 
