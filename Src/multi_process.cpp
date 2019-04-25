@@ -56,12 +56,10 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 		vector<future<vector<Graph>>> futures;
 		auto subCandidates = SplitVectorIntoSubVectors(c, t);
 
-		int ti = 1;
 		for (auto& sc : subCandidates) {
 			promise<vector<Graph>> p;
 			futures.emplace_back(p.get_future());
-			threads.emplace_back(thread(AddCandidateIfValid, sc, ds, s, ti, move(p)));
-			++ti;
+			threads.emplace_back(thread(AddCandidateIfValid, sc, ds, s, move(p)));
 		}
 
 		for (auto& t : threads) {
@@ -99,7 +97,15 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 	return subGraphs;
 }
 
-void AddCandidateIfValid(vector<Graph> c, vector<Graph> ds, int s, int t, promise<vector<Graph>> && p) {
+/**
+	Checks if a candidate should be added to the graphs and adds them if so.
+
+	@param g: The candidates being considered.
+	@param ds: The graph dataset to compare to.
+	@param s: The min support threshold.
+	@param p: The promise list of graphs that have the new candidates added.
+*/
+void AddCandidateIfValid(vector<Graph> c, vector<Graph> ds, int s, promise<vector<Graph>> && p) {
 	vector<Graph> subGraphs;
 
 	for (auto& g : c) {
