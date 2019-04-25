@@ -98,10 +98,9 @@ int main(int argc, char** argv) {
 
 	outFile.close();
 
+	cout << "Done.\n";
 	cout << "Process took " << durationMin.count() << " minutes, " << (durationSec.count() % 60)
 		<< " seconds and " << (durationMil.count() % 1000) << " milliseconds." << endl << endl;
 
-	//cout << "Press any key to continue...\n";
-	//cin >> s;
 	return 0;
 }
