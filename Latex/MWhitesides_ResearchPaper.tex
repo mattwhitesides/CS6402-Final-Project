@@ -232,12 +232,10 @@ vector<Graph> AprioriBased(vector<Graph> ds, int s, int t = 1) {
 		vector<future<vector<Graph>>> futures;
 		auto subCandidates = SplitVectorIntoSubVectors(c, t);
 
-		int ti = 1;
 		for (auto& sc : subCandidates) {
 			promise<vector<Graph>> p;
 			futures.emplace_back(p.get_future());
-			threads.emplace_back(thread(AddCandidateIfValid, sc, ds, s, ti, move(p)));
-			++ti;
+			threads.emplace_back(thread(AddCandidateIfValid, sc, ds, s, move(p)));
 		}
 
 		for (auto& t : threads) {
@@ -297,5 +295,9 @@ The results are actually quite good for each thread we see roughly a 50\% perfor
   \caption{Twitter Dataset Results.}
   \label{fig:Twitter}
 \end{figure}
+
+\section{Conclusion}
+
+The results while somewhat expected are quite good, obviously, something that can be done in parallel will be faster if done so correctly especially long running tasks. However, while I went with a fairly basic implementation of an Apriori-based algorithm I think this idea could easily be implemented in most frequent subgraph mining approaches. However what we found is most of the processing is taken up by constantly checking against the entire dataset many times over, this is a very intensive process and could be sped up greatly without using multiple cores. First, some of the obvious ideas are to create a hash map of the graphs to check against instead of each time iterating over the nodes to validate. And for subgraph isomorphism, we went with a fairly brute force approach however some slick methods could be done to create adjacency matrices to quickly compare against instead. Also what I have found when trying to do things like using a low minimum support on large datasets threads quickly become bogged down not by processing power but by memory, it may be a limit implied by the operating system but my 16gb memory wasn't allowing the used memory even on the 64bit compiled app to go over 8gb, and these are fairly small datasets in the grand scheme of things, so memory management and other methods would need to be used to cope with that. All in all an interesting process and good results found that should be expected, if we can look at 8 candidates at a time instead of 1 we should be 8x times quicker, right?
 
 \end{document}
