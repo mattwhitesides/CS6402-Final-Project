@@ -29,8 +29,9 @@
 
 
 \title{Parallel Apriori Based Frequent Subgraph Mining}
-\author{Matthew Whitesides\\
-  \large CS6402 Advanced Data Mining}
+\author{Matthew Whitesides\\\\
+  \large CS6402 Advanced Data Mining\\\\
+  \large Source Code: \href{https://github.com/mattwhitesides/CS6402-Final-Project}{https://github.com/mattwhitesides/CS6402-Final-Project}}
 
 \begin{document}
 \maketitle
@@ -41,11 +42,7 @@ Frequent Subgraph Mining is a particular task involved in Data Mining, the goal 
 In the following paper, we will be looking at the creation, implementation, and results of a parallel frequent subgraph mining algorithm. The algorithm is a modification of a fairly common Apriori-based approach to FSM, we'll test what aspects of the algorithm cause the slowest down and implement them in a way that can be run asynchronously. We find later in the results that the speed improvements scale quite well. 
 
 \section{Setup}
-The application code for the following paper can be found at:
-
-\href{https://github.com/mattwhitesides/CS6402-Final-Project}{https://github.com/mattwhitesides/CS6402-Final-Project}. 
-
-The implementation was written in C++, with minimal external dependencies. The included external headers are, \href{https://math.nist.gov/~RPozo/graph/ngraph_index.html}{NGraph++} and \href{https://github.com/catching/Catch2}{Catch2}. NGraph++ is a simple header file that contains a lightweight Graph data structure with basic insert edge and gets vertex neighbor functionality. No mining algorithms or complex features are part of the NGraph code leaving a clean foundation as to not have too many issues from the implementation of a Graph data structure rather focusing on the mining algorithms. Catch2 is another header only lightweight unit testing framework that I used to help test and debug some of the code.
+The application code for the following paper can be found at my \href{https://github.com/mattwhitesides/CS6402-Final-Project}{GitHub Project Page}. The implementation was written in C++, with minimal external dependencies. The included external headers are, \href{https://math.nist.gov/~RPozo/graph/ngraph_index.html}{NGraph++} and \href{https://github.com/catching/Catch2}{Catch2}. NGraph++ is a simple header file that contains a lightweight Graph data structure with basic insert edge and gets vertex neighbor functionality. No mining algorithms or complex features are part of the NGraph code leaving a clean foundation as to not have too many issues from the implementation of a Graph data structure rather focusing on the mining algorithms. Catch2 is another header only lightweight unit testing framework that I used to help test and debug some of the code.
 
 To compile the project you will need a C++ compiler gcc-g++ version 7.0 or later supporting C++17 features, and Make version 4.0 or later to build the makefile. To build and run the application on a Linux system simply clone the Git repo and run make, this will compline the multi-process application and can be run from the command line, with the following syntax: 
 "./multi \{Dataset Directory Path\} \{Optional Min Support Threshold\} \{Optional Thread Count\}\{Optional Output File Name\}".
