@@ -2,8 +2,8 @@
 // CS6402 - Adv Data Mining
 // 4/15/2019
 
-#include "..\Include\preprocess.hpp"
-#include "..\Include\multi_process.hpp"
+#include "../Include/preprocess.hpp"
+#include "../Include/multi_process.hpp"
 
 /**
 	Traverses the given graph in a breath first fashion.
