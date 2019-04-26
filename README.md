@@ -5,7 +5,7 @@
 Requirements:
 - gcc-g++ version 7.0 or later Or a recent Visual Studio w/ Visual C++.
 - make version 4.0 or later.
-- Tested on rc02xcs213.managed.mst.edu
+- Tested builds and compiles on rc02xcs213.managed.mst.edu, however the allocated VMs for students only contains a single CPU core so adding more threads does not show any preformance improvement. 
 
 How to build:
 - Download the repo or the zip file to your desired location.
