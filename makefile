@@ -6,7 +6,7 @@
 
 IDIR = Include
 CC = g++
-CFLAGS = -Wall -I$(IDIR) -lstdc++fs -std=c++17
+CFLAGS = -Wall -I$(IDIR) -lstdc++fs -std=c++17 -pthread
 
 ODIR = Obj
 ODIR_MULTI = Obj/Multi
