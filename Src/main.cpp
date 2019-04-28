@@ -13,7 +13,7 @@ using namespace std::chrono;
 int main(int argc, char** argv) {
 
 	string exe = string(argv[0]);
-	bool isMulti = (exe.find("multi") != string::npos) || (exe.find("CS6402") != string::npos);
+	bool isMulti = (exe.find("multi") != string::npos) || (exe.find("Multi") != string::npos);
 
 	if (argc < 2) {
 		cout << "Invalid number of arguments...\n";
